@@ -187,7 +187,7 @@ top 부분 수정
 }
 
 #placesList .item .info {
-	padding: 10px 0 10px 55px;
+	padding: 10px 0 10px 15px;
 }
 
 #placesList .info .gray {
@@ -316,13 +316,13 @@ top 부분 수정
 }
 
 .apt_icon {
-	background-image: url(image/apt.png);
+	background-image: url(image/home.png);
 	overflow: hidden;
 	overflow-x: hidden;
 	overflow-y: hidden;
 	display: inline-block;
-	width: 28px;
-	height: 28px;
+	width: 32px;
+	height: 32px;
 	font-size: 0;
 	color: transparent;
 	vertical-align: top;
@@ -360,6 +360,108 @@ top 부분 수정
 
 .info_window {
 	
+}
+
+.subwayLine
+{
+	padding-left: 18px;
+	background: url(image/metro.jpg)
+				no-repeat;
+	background-size: 16px 16px;
+}
+
+.kaptdWtimebus
+{
+	padding-left: 18px;
+	background: url(image/clock.png)
+				no-repeat;
+	background-size: 16px 16px;
+}
+
+.kaptdWtimesub
+{
+	padding-left: 18px;
+	background: url(image/clock.png)
+				no-repeat;
+	background-size: 16px 16px;
+}
+.subwayStation
+{
+	padding-left: 18px;
+	background: url(image/metro.jpg)
+				no-repeat;
+	background-size: 16px 16px;
+}
+
+.School
+{
+	padding-left: 18px;
+	background: url(image/school.jpg)
+				no-repeat;
+	background-size: 16px 16px;
+}
+.welfareFacility
+{
+	padding-left: 18px;
+	background: url(image/welfare.jpg)
+				no-repeat;
+	background-size: 16px 16px;
+
+}
+
+.convenientFacility
+{
+	padding-left: 18px;
+	background: url(image/.png)
+				no-repeat;
+	background-size: 16px 16px;
+}
+
+.educationFacility
+{
+	padding-left: 18px;
+	background: url(image/home.png)
+				no-repeat;
+	background-size: 16px 16px;
+}
+
+.office
+{
+	padding-left: 18px;
+	background: url(image/office.jpg)
+				no-repeat;
+	background-size: 16px 16px;
+}
+
+.hospital
+{
+	padding-left: 18px;
+	background: url(image/hospital.jpg)
+				no-repeat;
+	background-size: 16px 16px;
+}
+
+.park
+{
+	padding-left: 18px;
+	background: url(image/park.jpg)
+				no-repeat;
+	background-size: 16px 16px;
+}
+
+.shoppingMall
+{
+	padding-left: 18px;
+	background: url(image/shoppingMall.jpg)
+				no-repeat;
+	background-size: 16px 16px;
+}
+.etc
+{
+	padding-left: 18px;
+	background: url(image/etc.jpg)
+				no-repeat;
+	background-size: 16px 16px;
 }
 </style>
 <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -432,7 +534,7 @@ var RunPython = function(keyword)
 {
 	keyword = document.getElementById('keyword').value;
 	// 테스트 데이터
-	var testJSON = '[{"bjdCode":4812725028,"kaptCode":"A63085232","kaptName":"마산삼계2","kaptAddr":"경상남도 창원마산회원구 내서읍 삼계리 39 마산삼계2","doroJuso":"경상남도 창원시 마산회원구 삼계2길 24","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"5~10분이내","subwayLine":null,"subwayStation":null,"kaptdWtimesub":null,"convenientFacility":"병원(청아병원) 대형상가(롯데마트) 공원(내서근린공원)","educationFacility":"초등학교(광려초등학교) 중학교(삼계중학교) 고등학교(내서여고)","lng":128.5032221,"lat":35.2290864},{"bjdCode":2647010200,"kaptCode":"A61108001","kaptName":"연산센트럴파크","kaptAddr":"부산광역시 연제구 연산동 958-6 연산센트럴파크","doroJuso":"부산광역시 연제구 고분로98번길 16","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"10~15분이내","subwayLine":"1호선, 3호선","subwayStation":null,"kaptdWtimesub":"10~15분이내","convenientFacility":"관공서(부산소방본부/동래소방서) 병원(류마다병원) 대형상가(홈플러스) 공원(연산동 체육공원) 기타(연동시장)","educationFacility":"초등학교(연천초등학교,연일초등학교) 중학교(연산여자중학교) 고등학교(부산외국어고등학교) 대학교(부산경상대학)","lng":129.0935916,"lat":35.1843158},{"bjdCode":3120010600,"kaptCode":"A68380902","kaptName":"이화제일그린파크","kaptAddr":"울산광역시 북구 중산동 1166-18 이화제일그린파크","doroJuso":"울산광역시 북구 이화5길 63","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"5분이내","subwayLine":null,"subwayStation":null,"kaptdWtimesub":null,"convenientFacility":null,"educationFacility":"초등학교(메아리농아학교) 중학교(이화중)","lng":129.338601,"lat":35.6657945}]';
+	var testJSON = '[{"bjdCode":4812725028,"kaptCode":"A63085232","kaptName":"마산삼계2","kaptAddr":"경상남도 창원마산회원구 내서읍 삼계리 39 마산삼계2","doroJuso":"경상남도 창원시 마산회원구 삼계2길 24","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"5~10분이내","subwayLine":"2호선","subwayStation":"신정네거리역","kaptdWtimesub":null,"convenientFacility":"병원(청아병원) 대형상가(롯데마트) 공원(내서근린공원)","educationFacility":"초등학교(광려초등학교) 중학교(삼계중학교) 고등학교(내서여고)","lng":128.5032221,"lat":35.2290864},{"bjdCode":2647010200,"kaptCode":"A61108001","kaptName":"연산센트럴파크","kaptAddr":"부산광역시 연제구 연산동 958-6 연산센트럴파크","doroJuso":"부산광역시 연제구 고분로98번길 16","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"10~15분이내","subwayLine":"1호선, 3호선","subwayStation":null,"kaptdWtimesub":"10~15분이내","convenientFacility":"관공서(부산소방본부/동래소방서) 병원(류마다병원) 대형상가(홈플러스) 공원(연산동 체육공원) 기타(연동시장)","educationFacility":"초등학교(연천초등학교,연일초등학교) 중학교(연산여자중학교) 고등학교(부산외국어고등학교) 대학교(부산경상대학)","lng":129.0935916,"lat":35.1843158},{"bjdCode":3120010600,"kaptCode":"A68380902","kaptName":"이화제일그린파크","kaptAddr":"울산광역시 북구 중산동 1166-18 이화제일그린파크","doroJuso":"울산광역시 북구 이화5길 63","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"5분이내","subwayLine":null,"subwayStation":null,"kaptdWtimesub":null,"convenientFacility":null,"educationFacility":"초등학교(메아리농아학교) 중학교(이화중)","lng":129.338601,"lat":35.6657945}]';
 	testJSON = JSON.parse(testJSON);
 
 	console.log('검색, 키워드:');
@@ -567,16 +669,86 @@ function AddDetail(place, index)
 //검색결과 항목을 Element로 반환하는 함수입니다
 function GetListItem(place, index) 
 {
+	console.log(place);
 	var el = document.createElement('li'),
 	itemStr = '<div class="info">' +
-	            '   <h5>' + place.kaptName + '</h5>';
+	            '   <h2 style="font-size:1.5em">' + place.kaptName + '</h2>';
+	 
+	 
+	// 학교
+	var edu = new Map();
+	var str = place.educationFacility;
+	while(str != null && str.indexOf('(') != -1)
+	{
+		var start = str.indexOf('(');
+		var end = str.indexOf(')');
+		var name = str.substr(0, start);
+		var found = str.substr(start+1, end-start-1);
+		str = str.substr(end+2, str.length);
+		edu.set(name, found);
+	}
+	
+	// 편의시설 
+	var convenient = new Map();
+	var str = place.convenientFacility;
+	while(str != null && str.indexOf('(') != -1)
+	{
+		var start = str.indexOf('(');
+		var end = str.indexOf(')');
+		var name = str.substr(0, start);
+		var found = str.substr(start+1, end-start-1);
+		str = str.substr(end+2, str.length);
+		convenient.set(name, found);
+	}
 
-  	itemStr += '  <span>' + place.kaptWtimebus  + '</span>';
-  	itemStr += '  <span>' + place.subwayLine  + '</span>';
-  	itemStr += '  <span>' + place.subwayStation  + '</span>';
-  	itemStr += '  <span>' + place.welfareFacility  + '</span>';
-  	itemStr += '  <span>' + place.convenientFacility  + '</span>';
-  	itemStr += '  <span>' + place.educationFacility  + '</span>';
+	// 복지시설 
+	// 복지시설은 형식이 다름. 이 코드 삭제해도됨
+	/*
+	console.log('복지시설');
+	var welfare  = new Map();
+	var str = place.welfareFacility;
+	while(str != null && str.indexOf('(') != -1)
+	{
+		var start = str.indexOf('(');
+		var end = str.indexOf(')');
+		var name = str.substr(0, start);
+		var found = str.substr(start+1, end-start-1);
+		str = str.substr(end+2, str.length);
+		welfare[name] = found;
+		console.log(name + ', ' + welfare[name]);
+	}
+	*/
+	
+	
+	
+	if(place.subwayLine != null)
+		itemStr += '  <span class="subwayLine">' + place.subwayLine + '</span>';
+	if(place.subwayStation != null)
+		itemStr += '  <span class="subwayStation">' + place.subwayStation  + '</span>';
+  	itemStr += '  <span class="kaptdWtimesub">' + place.kaptdWtimebus  + '</span>';
+  	itemStr += '  <span class="welfareFacility">' + place.welfareFacility  + '</span>';
+  	//itemStr += '  <span class="convenientFacility">' + place.convenientFacility  + '</span>';
+  	
+  	if(convenient.has('병원'))
+  		itemStr += '  <span class="hospital">' + convenient.get('병원') + '</span>';
+	if(convenient.has('공원'))
+ 		itemStr += '  <span class="park">' + convenient.get('공원') + '</span>';
+	if(convenient.has('대형상가'))
+  		itemStr += '  <span class="shoppingMall">' + convenient.get('대형상가') + '</span>';
+	if(convenient.has('관공서'))
+  		itemStr += '  <span class="office">' + convenient.get('관공서') + '</span>';
+	if(convenient.has('기타'))
+  		itemStr += '  <span class="etc">' + convenient.get('기타') + '</span>';
+ 		
+ 	  		
+ 	if(edu.has('초등학교'))
+  		itemStr += '  <span class="elementry School">' + edu.get('초등학교') + '</span>';
+	if(edu.has('중학교'))
+		itemStr += '  <span class="middle School">' + edu.get('중학교') + '</span>';
+	if(edu.has('고등학교'))
+		itemStr += '  <span class="high School">' + edu.get('고등학교') + '</span>';
+	if(edu.has('대학교'))
+		itemStr += '  <span class="university School">' + edu.get('대학교') + '</span>';
 	itemStr += '    <span>' + place.doroJuso + '</span>' +
     '   <span class="jibun gray">' +  place.kaptAddr + '</span>';
 	             
@@ -621,13 +793,59 @@ function DisplayMarkerOverlay(place, marker, index)
 								'<strong class="main_text">' +
 									place.kaptName + 
 								'</strong>' +
-								'<div class="sub_text">' +
-									place.kaptAddr + 
-								'</div>' +
-								'<input class="fav_button" type="button" value="북마크" onclick="OnClickBookmark('+index+')">' +
-							'</div>' +
-						'</div>' +
- 				  '</div>';
+								//'<div class="sub_text">' +
+								//	place.doroJuso + 
+								//'</div>' +
+								'<br>';
+
+	// 학교
+	var edu = new Map();
+	var str = place.educationFacility;
+	while(str != null && str.indexOf('(') != -1)
+	{
+		var start = str.indexOf('(');
+		var end = str.indexOf(')');
+		var name = str.substr(0, start);
+		var found = str.substr(start+1, end-start-1);
+		str = str.substr(end+2, str.length);
+		edu.set(name, found);
+	}
+	
+	// 편의시설 
+	var convenient = new Map();
+	var str = place.convenientFacility;
+	while(str != null && str.indexOf('(') != -1)
+	{
+		var start = str.indexOf('(');
+		var end = str.indexOf(')');
+		var name = str.substr(0, start);
+		var found = str.substr(start+1, end-start-1);
+		str = str.substr(end+2, str.length);
+		convenient.set(name, found);
+	}
+	console.log(edu);
+	console.log(convenient);
+	
+	if(place.subwayLine != null)
+		content += '  <span class="subwayLine"></span>';
+  	content += '  <span class="welfareFacility"></span>';
+  	
+  	if(convenient.has('병원'))
+  		content += '  <span class="hospital"></span>';
+	if(convenient.has('공원'))
+ 		content += '  <span class="park"></span>';
+	if(convenient.has('대형상가'))
+		content += '  <span class="shoppingMall"></span>';
+	if(convenient.has('관공서'))
+		content += '  <span class="office"></span>';
+ 		
+	if(edu.size > 0)
+		content += '<span class="School" style="padding-right:2px"></span>';
+	content += '<br>';
+	content += '<input class="fav_button" type="button" value="북마크" onclick="OnClickBookmark('+index+')">' +
+	'</div>' +
+	'</div>' +
+ 	'</div>';
  				  
 	markerOverlay.setContent(content);
 	markerOverlay.setPosition(placePosition);
