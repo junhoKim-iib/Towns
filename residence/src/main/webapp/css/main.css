@@ -1,7 +1,4 @@
 @charset "EUC-KR";
-html, body{
-	margin-left: 50px;
-}
 #header_menu ul {
 	height: 550px;
 	margin: 20px;

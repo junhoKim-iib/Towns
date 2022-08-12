@@ -1,0 +1,12 @@
+GET http://192.168.0.5:80/recommend HTTP/1.1
+Accept-Charset: UTF-8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+Content-Type: application/json
+
+{
+    "searched" : "삼성동",
+    "age": "32",
+    "gender" : "male",
+    "family" : "3"
+}

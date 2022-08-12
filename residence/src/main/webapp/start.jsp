@@ -1,17 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/main1.css">
+
+<script type="application/javascript" src="js/hangjungdong.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-<meta charset="EUC-KR">
-<title>»ì±â ÁÁÀº µ¿³× ÃßÃµ</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<meta charset="UTF-8">
+<title>ì‚´ê¸° ì¢‹ì€ ë™ë„¤ ì¶”ì²œ</title>
 <style>
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 body{
+font-family: 'Cafe24Ssurround';
 margin: 500px 1500px 200px 50px;
-background-image:url("image/star.gif");
+background-image:url("image/star1.png");
 background-repeat:no-repeat;
 background-size: cover;
  }
@@ -36,10 +45,13 @@ h2 span:nth-child(1) {
 #header_menu ul li {
 	display: inline;
 	border-left: 1px solid #FFFFFF;
-	/* Å×µÎ¸®¿Í ¸Ş´º °£°İ ¹ú¸®±â. padding: À§ ¿À¸¥ÂÊ ¾Æ·¡ ¿ŞÂÊ; */
+	/* í…Œë‘ë¦¬ì™€ ë©”ë‰´ ê°„ê²© ë²Œë¦¬ê¸°. padding: ìœ„ ì˜¤ë¥¸ìª½ ì•„ë˜ ì™¼ìª½; */
 	padding: 0px 10px 0px 10px;
- 
+ font-family: 'Malgun Gothic', dotum, 'ë‹ì›€', sans-serif;
         color: #FFFFFF;
+}
+#search{
+ font-family: 'Malgun Gothic', dotum, 'ë‹ì›€', sans-serif;
 }
 #header_menu{
 	float: right;
@@ -48,26 +60,39 @@ h2 span:nth-child(1) {
 </head>
 <body>
 	<h1>
-	    <span>R. G. N</span><br/>
+	    <span>Sweet Home</span><br/>
 	</h1>
 	<h2>
-	    <span>Recommend a good neighborhood to live in</span>
+	    <span id="subtitle">Recommend a good neighborhood <span id="userid" style="font-size:50px;"></span> to live in</span>
 	</h2>
 	
 	<div id="ac"></div>
 	<form action="main.jsp" method="get">
 		<div id="search">
 	    	<div class="mx-1 mt-5 my-1 search-bar input-group mb-3">
-				<input name="search_value" type="text" class="form-control rounded-pill" placeholder="Áö¿ª °Ë»ö" aria-label="Recipient's username" aria-describedby="button-addon2">
+		    	<select name="sido" id="sido">
+			      <option value="">ì„ íƒ</option>
+			    </select>
+			    <select name="sigugun" id="sigugun">
+			      <option value="">ì„ íƒ</option>
+			    </select>
+			    <select name="dong" id="dong">
+			      <option value="">ì„ íƒ</option>
+			    </select>
+			    <button type="submit">ê²€ìƒ‰</button>
+				<!--  
+				<input name="search_value" type="text" class="form-control rounded-pill" placeholder="ì§€ì—­ ê²€ìƒ‰" aria-label="Recipient's username" aria-describedby="button-addon2">
+				-->
 				<div class="input-group-append">
+				
 	      		</div>
 	      	</div>
 	      	<div id="header_menu">
 	      		<ul id="menu_list"> 
-					<li id="login"><a href="login1.jsp">·Î±×ÀÎ</a></li>
-					<li id="join"><a href="join.jsp">È¸¿ø°¡ÀÔ</a></li>
-					<li id="logout"><a href="logout.jsp">·Î±×¾Æ¿ô</a></li>
-					<li id="bookmark"><a href="bookmark.jsp">ºÏ¸¶Å©</a></li>
+					<li id="login"><a href="login1.jsp">ë¡œê·¸ì¸</a></li>
+					<li id="join1"><a href="join1.jsp">íšŒì›ê°€ì…</a></li>
+					<li id="logout"><a href="logout.jsp">ë¡œê·¸ì•„ì›ƒ</a></li>
+					<li id="update"><a href="mem_update.jsp">íšŒì›ì •ë³´ ìˆ˜ì •</a></li>
 				</ul>
 			</div>
 		</div>
@@ -76,13 +101,74 @@ h2 span:nth-child(1) {
 	<span id="user_welcome"></span>
 	<!-- -------------- Javascript -------------- // -->
 	<script>
+	jQuery(document).ready(function(){
+		  //sido option ì¶”ê°€
+		  jQuery.each(hangjungdong.sido, function(idx, code){
+		    //appendë¥¼ ì´ìš©í•˜ì—¬ option í•˜ìœ„ì— ë¶™ì—¬ë„£ìŒ
+		    jQuery('#sido').append(fn_option(code.sido, code.codeNm));
+		  });
+
+		  //sido ë³€ê²½ì‹œ ì‹œêµ°êµ¬ option ì¶”ê°€
+		  jQuery('#sido').change(function(){
+		    jQuery('#sigugun').show();
+		    jQuery('#sigugun').empty();
+		    jQuery('#sigugun').append(fn_option('','ì„ íƒ')); //
+		    jQuery.each(hangjungdong.sigugun, function(idx, code){
+		      if(jQuery('#sido > option:selected').val() == code.sido)
+		        jQuery('#sigugun').append(fn_option(code.sigugun, code.codeNm));
+		    });
+
+		    //ì„¸ì¢…íŠ¹ë³„ìì¹˜ì‹œ ì˜ˆì™¸ì²˜ë¦¬
+		    //ì˜µì…˜ê°’ì„ ì½ì–´ ë¹„êµ
+		    if(jQuery('#sido option:selected').val() == '36'){
+		      jQuery('#sigugun').hide();
+		      //indexë¥¼ ì´ìš©í•´ì„œ selected ì†ì„±(attr)ì¶”ê°€
+		      //ê¸°ë³¸ ì„ íƒ ì˜µì…˜ì´ ìµœìƒìœ„ë¡œ index 0ì„ ê°€ì§
+		      jQuery('#sigugun option:eq(1)').attr('selected', 'selected');
+		      //triggerë¥¼ ì´ìš©í•´ change ì‹¤í–‰
+		      jQuery('#sigugun').trigger('change');
+		    }
+		  });
+
+		  //ì‹œêµ°êµ¬ ë³€ê²½ì‹œ í–‰ì •ë™ ì˜µì…˜ì¶”ê°€
+		  jQuery('#sigugun').change(function(){
+		    //option ì œê±°
+		    jQuery('#dong').empty();
+		    jQuery.each(hangjungdong.dong, function(idx, code){
+		      if(jQuery('#sido > option:selected').val() == code.sido && jQuery('#sigugun > option:selected').val() == code.sigugun)
+		        jQuery('#dong').append(fn_option(code.dong, code.codeNm));
+		    });
+		    //optionì˜ ë§¨ì•ì— ì¶”ê°€
+		    jQuery('#dong').prepend(fn_option('','ì„ íƒ'));
+		    //optionì¤‘ ì„ íƒì„ ê¸°ë³¸ìœ¼ë¡œ ì„ íƒ
+		    jQuery('#dong option:eq("")').attr('selected', 'selected');
+
+		  });
+
+		  jQuery('#dong').change(function(){
+		    var sido = jQuery('#sido option:selected').val();
+		    var sigugun = jQuery('#sigugun option:selected').val();
+		    var dong = jQuery('#dong option:selected').val();
+		    var dongCode = sido + sigugun + dong + '00';
+
+		    //ë™ë„¤ì˜ˆë³´ URL
+		    var url = 'https://www.weather.go.kr/weather/process/timeseries-dfs-body-ajax.jsp?myPointCode=' + dongCode + '&unit=K';
+
+		  });
+		});
+
+		function fn_option(code, name){
+		  return '<option value="' + code +'">' + name +'</option>';
+		}
+		</script>
+	<script>
 		var ShowMenuAfterLogin = function(show)
 		{
 			var logout = document.getElementById('logout');
-			var bookmark = document.getElementById('bookmark');
+			var update = document.getElementById('update');
 			if(show)
 			{
-				// ·Î±×ÀÎ, È¸¿ø°¡ÀÔ li »èÁ¦
+				// ë¡œê·¸ì¸, íšŒì›ê°€ì… li ì‚­ì œ
 				var ul = document.getElementById('menu_list');
 				console.log(ul);
 				var items = ul.getElementsByTagName('li');
@@ -91,20 +177,18 @@ h2 span:nth-child(1) {
 				items[0].remove();
 				
 				logout.style.display = 'inline';
-				bookmark.style.display = 'inline';
+				update.style.display = 'inline';
 			}
 			else
 			{
 				logout.style.display = 'none';
-				bookmark.style.display = 'none';
+				update.style.display = 'none';				
 			}
 		}
 
-		var ShowWelcome = function(user_id)
+		var ShowUserId = function(user_id)
 		{
-			console.log(user_id+'asd');
-			var welcome = document.getElementById('user_welcome');
-			welcome.textContent = user_id+'´Ô È¯¿µÇÕ´Ï´Ù!';
+			document.getElementById('userid').textContent = ' for '+user_id;
 		}
 		
 	</script>
@@ -113,7 +197,7 @@ h2 span:nth-child(1) {
 	<%
 	if (session == null || !request.isRequestedSessionIdValid()) 
 	{
-	    System.out.println("¼¼¼ÇÀÌ ¹«È¿È­ »óÅÂÀÔ´Ï´Ù.");
+	    System.out.println("ì„¸ì…˜ì´ ë¬´íš¨í™” ìƒíƒœì…ë‹ˆë‹¤.");
 	    %>
 		<script>
 			ShowMenuAfterLogin(false);
@@ -123,7 +207,7 @@ h2 span:nth-child(1) {
 	else
 	{
 		String uid = (String)session.getAttribute("G_uid");
-		// ·Î±×ÀÎ ¾ÈµÈ »óÅÂ¸é
+		// ë¡œê·¸ì¸ ì•ˆëœ ìƒíƒœë©´
 		if(uid == null)
 		{
 			%>
@@ -132,14 +216,14 @@ h2 span:nth-child(1) {
 			</script>
 			<%
 		}
-		// ·Î±×ÀÎ µÈ »óÅÂ¸é
+		// ë¡œê·¸ì¸ ëœ ìƒíƒœë©´
 		else
 		{
-			// ·Î±×¾Æ¿ô ¹öÆ°À» º¸¿©ÁØ´Ù.
+			// ë¡œê·¸ì•„ì›ƒ ë²„íŠ¼ì„ ë³´ì—¬ì¤€ë‹¤.
 			%>
 			<script>
 				ShowMenuAfterLogin(true);
-				ShowWelcome('<%=uid%>');
+				ShowUserId('<%=uid%>');
 			</script>
 			<%
 		}

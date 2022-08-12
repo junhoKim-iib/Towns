@@ -67,14 +67,14 @@ a {
     line-height: 55px;
     margin: 0px 10px 8px 10px;
     border: solid 1px rgba(0,0,0,.1);
-    background-color: #7da5c6; /*7da5c6 03c75a*/
+    background-color: #365f37; /*7da5c6 03c75a*/
     color: #fff;
     cursor: pointer;
 }
 /*로그인버튼*/
 .login-btn{
     width:100px;
-    background-color: #7da5c6;
+    background-color: #365f37;
     border: none;
     color:#fff;
     font-size: 18px;

@@ -177,6 +177,8 @@ function cursor_move(a)
 <td width="40%" align="left">자식</td>
 <td width="60%" align="left">
 <input type="text" size="10" maxlength="10" name="ch">명
+</td>
+</tr>
 </form>
 </table>
 <button class="join-btn" value="가입" onclick="valid_check()">가입</button>

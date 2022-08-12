@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
 	<meta charset="UTF-8">
-	<title>R.G.N ·Î±×ÀÎ</title>
+	<title>R.G.N ë¡œê·¸ì¸</title>
 	<link rel="stylesheet" href="css/login.css">
 	<script src="login.js"></script>
 </head>
@@ -14,13 +14,13 @@ function valid_check()
 {
 	if(document.frm1.userid.value=="")
 	{
-		alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¿© ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.");
+		alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì—¬ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.");
 		document.frm1.userid.focus();
 		return false;
 	}
 	if(document.frm1.passwd.value=="")
 	{
-		alert("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¿© ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.");
+		alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì—¬ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.");
 		document.frm1.passwd.focus();
 		return false;
 	}
@@ -30,61 +30,60 @@ function valid_check()
 
 <body>
 	<div class="main">
-		<!--À¥ÆäÀÌÁö »ó´Ü-->
+		<!--ì›¹í˜ì´ì§€ ìƒë‹¨-->
 		<header>
-			<!--NAVER LOGO-->
 			<div class="logo">
-				<a href="start.jsp" target="_blank" title="È¨ÆäÀÌÁö"><img src="image/logo1.PNG"
+				<a href="start.jsp" target="_blank" title="í™ˆí˜ì´ì§€"><img src="image/logo1.JPG"
 						class="image"></a>
 			</div>
 		</header>
 
-		<!--·Î±×ÀÎ ºÎºĞ-->
+		<!--ë¡œê·¸ì¸ ë¶€ë¶„-->
 		<form name="frm1" action="login_ok1.jsp" METHOD="post">
 		<section class="login-wrap">
 			<div class="login-id-wrap">
-				<input placeholder="¾ÆÀÌµğ" type="text" class="input-id" name="userid" required></input>
+				<input placeholder="ì•„ì´ë””" type="text" class="input-id" name="userid" required></input>
 			</div>
 			<div class="login-pw-wrap">
-				<input placeholder="ºñ¹Ğ¹øÈ£" type="password" class="input-pw" name="passwd" required></input>
+				<input placeholder="ë¹„ë°€ë²ˆí˜¸" type="password" class="input-pw" name="passwd" required></input>
 			</div>
 			<div class="login-btn-wrap">
-				<button class="login-btn" onclick="valid_check()" >·Î±×ÀÎ</button>
+				<button class="login-btn" onclick="valid_check()" >ë¡œê·¸ì¸</button>
 			</div>
 			<div class="under-login">
 				<span class="stay-check">
-					<input type="checkbox" name="stay-btn" value="stay" class="stay-checkbox">·Î±×ÀÎ »óÅÂ À¯Áö
+					<input type="checkbox" name="stay-btn" value="stay" class="stay-checkbox">ë¡œê·¸ì¸ ìƒíƒœ ìœ ì§€
 				</span>
 				<span class="ip-check">
-					IP º¸¾È <input type="checkbox" name="stay-btn" value="stay" class="ip-checkbox">
+					IP ë³´ì•ˆ <input type="checkbox" name="stay-btn" value="stay" class="ip-checkbox">
 				</span>
 			</div>
 		</section>
 
-		<!--class,PW Ã£±â ¹× È¸¿ø°¡ÀÔ ºÎºĞ-->
+		<!--class,PW ì°¾ê¸° ë° íšŒì›ê°€ì… ë¶€ë¶„-->
 		<section class="find-signup-wrap">
 
 			<!--<span class="find-id">
 				<a href="https://nclass.naver.com/user2/help/classInquiry?lang=ko_KR" target="_blank"
-					title="¾ÆÀÌµğ Ã£±â">¾ÆÀÌµğ Ã£±â</a>
+					title="ì•„ì´ë”” ì°¾ê¸°">ì•„ì´ë”” ì°¾ê¸°</a>
 			</span>
 
 			<span class="find-pw">
 				<a href="https://nclass.naver.com/user2/help/pwInquiry?lang=ko_KR" target="_blank"
-					title="ºñ¹Ğ¹øÈ£ Ã£±â">ºñ¹Ğ¹øÈ£ Ã£±â</a>
+					title="ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°">ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°</a>
 			</span>
 -->
 			<span class="sign-up">
-				<a href="join.jsp" target="_blank"
-					title="È¸¿ø°¡ÀÔ">È¸¿ø°¡ÀÔ</a>
+				<a href="join1.jsp" target="_blank"
+					title="íšŒì›ê°€ì…">íšŒì›ê°€ì…</a>
 			</span>
 
 		</section>
 
-		<!--ÀúÀÛ±Ç Á¤º¸-->
+		<!--ì €ì‘ê¶Œ ì •ë³´-->
 		<footer>
 			<div class="copyright-wrap">
-				<span> <img src="image/logo1.PNG" width=70px> Copyright  WRUTA. All Rights Reserved.</span>
+				<span> <img src="image/logo1.JPG" width=70px> Copyright  WRUTA. All Rights Reserved.</span>
 			</div>
 		</footer>
 
