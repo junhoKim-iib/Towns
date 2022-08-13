@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script type="application/javascript" src="js/bjd.js"></script>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -858,81 +859,102 @@ div.loading{
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=***REMOVED***&libraries=services"></script>
 	
 	<script>
+	var sd = '<%=request.getParameter("sido")%>';
+	var sgg = '<%=request.getParameter("sigugun")%>'
+	var dg = '<%=request.getParameter("dong")%>'
+		
+	console.log(sd);
+	console.log(sgg);
+	console.log(dg);
+
+	var age = '<%=(int)session.getAttribute("G_birth")%>';
+	var wos = '<%=(int)session.getAttribute("G_wos")%>';
+	var par = '<%=(int)session.getAttribute("G_par")%>';
+	var ch = '<%=(int)session.getAttribute("G_ch")%>';
 	
-var sd = '<%=request.getParameter("sido")%>';
-var sgg = '<%=request.getParameter("sigugun")%>'
-var dg = '<%=request.getParameter("dong")%>'
-	
-var sidoIdx=hangjungdong.sido.findIndex(i=>i.sido=='<%=request.getParameter("sido")%>');
-var sigugunIdx=hangjungdong.sigugun.findIndex(i=>i.sigugun=='<%=request.getParameter("sigugun")%>' && i.sido=='<%=request.getParameter("sido")%>');
-var dongIdx=hangjungdong.dong.findIndex(i=>i.dong=='<%=request.getParameter("dong")%>'&& i.sigugun=='<%=request.getParameter("sigugun")%>' && i.sido=='<%=request.getParameter("sido")%>');
 
-var sido = hangjungdong.sido[sidoIdx].codeNm;//시
-var sigungu = hangjungdong.sigugun[sigugunIdx].codeNm;//시군구
-var dong = hangjungdong.dong[dongIdx].codeNm;//동
-
-console.log(sido);
-console.log(sigungu);
-console.log(dong);
-var age = '<%=(int)session.getAttribute("G_birth")%>';
-var wos = '<%=(int)session.getAttribute("G_wos")%>';
-var par = '<%=(int)session.getAttribute("G_par")%>';
-var ch = '<%=(int)session.getAttribute("G_ch")%>';
-jQuery(document).ready(function(){
-	  //sido option 추가
-	  jQuery.each(hangjungdong.sido, function(idx, code){
-	    //append를 이용하여 option 하위에 붙여넣음
-	    jQuery('#sido').append(fn_option(code.sido, code.codeNm));
-	  });
-
-	  //sido 변경시 시군구 option 추가
-	  jQuery('#sido').change(function(){
-	    jQuery('#sigugun').show();
-	    jQuery('#sigugun').empty();
-	    jQuery('#sigugun').append(fn_option('','선택')); //
-	    jQuery.each(hangjungdong.sigugun, function(idx, code){
-	      if(jQuery('#sido > option:selected').val() == code.sido)
-	        jQuery('#sigugun').append(fn_option(code.sigugun, code.codeNm));
-	    });
-
-	    //세종특별자치시 예외처리
-	    //옵션값을 읽어 비교
-	    if(jQuery('#sido option:selected').val() == '36'){
-	      jQuery('#sigugun').hide();
-	      //index를 이용해서 selected 속성(attr)추가
-	      //기본 선택 옵션이 최상위로 index 0을 가짐
-	      jQuery('#sigugun option:eq(1)').attr('selected', 'selected');
-	      //trigger를 이용해 change 실행
-	      jQuery('#sigugun').trigger('change');
+	var bjdMap = new Map();
+	for(var i=0; i<bjd.length; i++)
+	{
+	    var sido = bjd[i].sido;
+	    var sigugun = bjd[i].sigugun;
+	    var dong1 = bjd[i].dong1;
+	    var dong2 = bjd[i].dong2;
+	    var dong3 = bjd[i].dong3;
+	    if(sido != "" && sigugun != "" && dong1 != "")
+	    {
+	        if(bjdMap.get(sido))
+	        {
+	            if(bjdMap.get(sido).get(sigugun))
+	            {
+	            	if(bjdMap.get(sido).get(sigugun).includes(dong1 + " " + dong2) == false)
+	                	bjdMap.get(sido).get(sigugun).push(dong1 + " " + dong2);
+	            }
+	            else
+	            {
+	                bjdMap.get(sido).set(sigugun, []);
+	            }
+	        }
+	        else
+	        {
+	            bjdMap.set(sido, new Map());
+	        }
 	    }
-	  });
-
-	  //시군구 변경시 행정동 옵션추가
-	  jQuery('#sigugun').change(function(){
-	    //option 제거
-	    jQuery('#dong').empty();
-	    jQuery.each(hangjungdong.dong, function(idx, code){
-	      if(jQuery('#sido > option:selected').val() == code.sido && jQuery('#sigugun > option:selected').val() == code.sigugun)
-	        jQuery('#dong').append(fn_option(code.dong, code.codeNm));
-	    });
-	    //option의 맨앞에 추가
-	    jQuery('#dong').prepend(fn_option('','선택'));
-	    //option중 선택을 기본으로 선택
-	    jQuery('#dong option:eq("")').attr('selected', 'selected');
-
-	  });
-
-	  jQuery('#dong').change(function(){
-	    var sido = jQuery('#sido option:selected').val();
-	    var sigugun = jQuery('#sigugun option:selected').val();
-	    var dong = jQuery('#dong option:selected').val();
-	    var dongCode = sido + sigugun + dong + '00';
-	  });
-	});
-
-	function fn_option(code, name){
-	  return '<option value="' + code +'">' + name +'</option>';
 	}
+
+	function sidoOptions(value, key, map)
+	{
+		jQuery('#sido').append(fn_option(0, key));
+	}
+	function sigugunOptions(value, key, map)
+	{
+		//console.log(jQuery('#sido > option:selected').val());
+		var t = map.get(jQuery('#sido > option:selected').val());
+		if(jQuery('#sido > option:selected').val() == key)
+		{
+			value.forEach((value, key, map) => jQuery('#sigugun').append(fn_option(0, key)));
+		}
+	}
+	function dongOptions(value, key, map)
+	{
+		var t = map.get(jQuery('#sido > option:selected').val()).get(jQuery('#sigugun > option:selected').val());
+		for(var i=0; i<t.length; i++)
+		{
+			 jQuery('#dong').append(fn_option(0, t[i]));
+		}
+		if(jQuery('#sigugun > option:selected').val() == key)
+		{
+			value.forEach((value, key, map) => jQuery('#dong').append(fn_option(0, value)));
+		}
+	}
+	
+	jQuery(document).ready(function(){
+		
+		bjdMap.forEach(sidoOptions);
+		
+		jQuery('#sido').change(function(){
+		    jQuery('#sigugun').show();
+		    jQuery('#sigugun').empty();
+		    jQuery('#sigugun').append(fn_option('','선택')); //
+		    bjdMap.forEach(sigugunOptions);
+		});
+
+		jQuery('#sigugun').change(function(){
+		    jQuery('#dong').show();
+		    jQuery('#dong').empty();
+		    jQuery('#dong').append(fn_option('','선택')); //
+		    
+		    var t = bjdMap.get(jQuery('#sido > option:selected').val()).get(jQuery('#sigugun > option:selected').val());
+			for(var i=0; i<t.length; i++)
+			{
+				 jQuery('#dong').append(fn_option(0, t[i]));
+			}
+		});
+	});
+	
+		function fn_option(code, name){
+		  return '<option value="' + name +'">' + name +'</option>';
+		}
 </script>
 <script>
 // 현재 상태
@@ -1008,20 +1030,16 @@ function toggleLoading(event)
 }
 var Search = function()
 {
-	var sidoIdx=hangjungdong.sido.findIndex(i=>i.sido==$("#sido").val());
-	var sigugunIdx=hangjungdong.sigugun.findIndex(i=>i.sigugun==$("#sigugun").val()&&i.sido==$("#sido").val());
-	var dongIdx=hangjungdong.dong.findIndex(i=>i.dong==$("#dong").val()&&i.sigugun==$("#sigugun").val()&&i.sido==$("#sido").val());
-
-	sido = hangjungdong.sido[sidoIdx].codeNm;//시
-	sigungu = hangjungdong.sigugun[sigugunIdx].codeNm;//시군구
-	dong = hangjungdong.dong[dongIdx].codeNm;//동
+	sd = $("#sido").val();//시
+	sgg = $("#sigugun").val();//시군구
+	dg = $("#dong").val();//동
 	
 	RunPython();
 }
 var RunPython = function()
 {
-	keyword = sigungu + " " + dong;
-	console.log(keyword);
+	keyword = sd + " " + sgg + " " + dg;
+	console.log("검색: "+ keyword);
 	// 테스트 데이터
 	//var testJSON = '[{"bjdCode":4812725028,"kaptCode":"A63085232","kaptName":"마산삼계2","kaptAddr":"경상남도 창원마산회원구 내서읍 삼계리 39 마산삼계2","doroJuso":"경상남도 창원시 마산회원구 삼계2길 24","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"5~10분이내","subwayLine":"2호선","subwayStation":"신정네거리역","kaptdWtimesub":null,"convenientFacility":"병원(청아병원) 대형상가(롯데마트) 공원(내서근린공원)","educationFacility":"초등학교(광려초등학교) 중학교(삼계중학교) 고등학교(내서여고)","lng":128.5032221,"lat":35.2290864},{"bjdCode":2647010200,"kaptCode":"A61108001","kaptName":"연산센트럴파크","kaptAddr":"부산광역시 연제구 연산동 958-6 연산센트럴파크","doroJuso":"부산광역시 연제구 고분로98번길 16","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"10~15분이내","subwayLine":"1호선, 3호선","subwayStation":null,"kaptdWtimesub":"10~15분이내","convenientFacility":"관공서(부산소방본부/동래소방서) 병원(류마다병원) 대형상가(홈플러스) 공원(연산동 체육공원) 기타(연동시장)","educationFacility":"초등학교(연천초등학교,연일초등학교) 중학교(연산여자중학교) 고등학교(부산외국어고등학교) 대학교(부산경상대학)","lng":129.0935916,"lat":35.1843158},{"bjdCode":3120010600,"kaptCode":"A68380902","kaptName":"이화제일그린파크","kaptAddr":"울산광역시 북구 중산동 1166-18 이화제일그린파크","doroJuso":"울산광역시 북구 이화5길 63","welfareFacility":"관리사무소, 노인정, 어린이놀이터, 자전거보관소","kaptdWtimebus":"5분이내","subwayLine":null,"subwayStation":null,"kaptdWtimesub":null,"convenientFacility":null,"educationFacility":"초등학교(메아리농아학교) 중학교(이화중)","lng":129.338601,"lat":35.6657945}]';
 	//testJSON = JSON.parse(testJSON);
@@ -1038,13 +1056,10 @@ var RunPython = function()
 	xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	xhr.onreadystatechange = function() 
 	{
-		console.log('asd');
 		if(xhr.readyState == XMLHttpRequest.DONE)
 		{
 			if(xhr.status == 200)
 			{
-				console.log('검색, 키워드:');
-				console.log(keyword);
 				currentState = 0;
 				// 마커 초기화
 				RemoveMarker();
@@ -1065,7 +1080,6 @@ var RunPython = function()
 				        placeMap[idx][attr] = result[attr][idx];
 				    }
 				}
-				console.log(placeMap);
 				loadingOverlay.classList.add('hidden');
 				var i=0;
 				for(var idx in placeMap)

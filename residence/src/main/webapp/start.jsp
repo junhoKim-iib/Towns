@@ -4,6 +4,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/main1.css">
 
+<script type="application/javascript" src="js/bjd.js"></script>
 <script type="application/javascript" src="js/hangjungdong.js"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -71,15 +72,17 @@ h2 span:nth-child(1) {
 		<div id="search">
 	    	<div class="mx-1 mt-5 my-1 search-bar input-group mb-3">
 		    	<select name="sido" id="sido">
-			      <option value="">선택</option>
+			      <option value="" selected>선택</option>
 			    </select>
 			    <select name="sigugun" id="sigugun">
-			      <option value="">선택</option>
+			      <option value="" selected>선택</option>
 			    </select>
 			    <select name="dong" id="dong">
-			      <option value="">선택</option>
+			      <option value="" selected>선택</option>
 			    </select>
-			    <button type="submit">검색</button>
+			    &nbsp; 
+			    <input name="search_value" type="hidden"/>
+			    <button type="submit" class="btn btn-light">검색</button>
 				<!--  
 				<input name="search_value" type="text" class="form-control rounded-pill" placeholder="지역 검색" aria-label="Recipient's username" aria-describedby="button-addon2">
 				-->
@@ -101,64 +104,96 @@ h2 span:nth-child(1) {
 	<span id="user_welcome"></span>
 	<!-- -------------- Javascript -------------- // -->
 	<script>
+	var bjdMap = new Map();
+	for(var i=0; i<bjd.length; i++)
+	{
+	    var sido = bjd[i].sido;
+	    var sigugun = bjd[i].sigugun;
+	    var dong1 = bjd[i].dong1;
+	    var dong2 = bjd[i].dong2;
+	    var dong3 = bjd[i].dong3;
+	    if(sido != "" && sigugun != "" && dong1 != "")
+	    {
+	        if(bjdMap.get(sido))
+	        {
+	            if(bjdMap.get(sido).get(sigugun))
+	            {
+	            	if(bjdMap.get(sido).get(sigugun).includes(dong1 + " " + dong2) == false)
+	                	bjdMap.get(sido).get(sigugun).push(dong1 + " " + dong2);
+	            }
+	            else
+	            {
+	                bjdMap.get(sido).set(sigugun, []);
+	            }
+	        }
+	        else
+	        {
+	            bjdMap.set(sido, new Map());
+	        }
+	    }
+	}
+
+	function sidoOptions(value, key, map)
+	{
+		jQuery('#sido').append(fn_option(0, key));
+	}
+	function sigugunOptions(value, key, map)
+	{
+		//console.log(jQuery('#sido > option:selected').val());
+		var t = map.get(jQuery('#sido > option:selected').val());
+		if(jQuery('#sido > option:selected').val() == key)
+		{
+			value.forEach((value, key, map) => jQuery('#sigugun').append(fn_option(0, key)));
+		}
+	}
+	function dongOptions(value, key, map)
+	{
+		var t = map.get(jQuery('#sido > option:selected').val()).get(jQuery('#sigugun > option:selected').val());
+		for(var i=0; i<t.length; i++)
+		{
+			 jQuery('#dong').append(fn_option(0, t[i]));
+		}
+		console.log("key:" + key);
+		if(jQuery('#sigugun > option:selected').val() == key)
+		{
+			console.log(value);
+			value.forEach((value, key, map) => jQuery('#dong').append(fn_option(0, value)));
+		}
+	}
+	
 	jQuery(document).ready(function(){
+		/*
 		  //sido option 추가
 		  jQuery.each(hangjungdong.sido, function(idx, code){
 		    //append를 이용하여 option 하위에 붙여넣음
 		    jQuery('#sido').append(fn_option(code.sido, code.codeNm));
 		  });
-
-		  //sido 변경시 시군구 option 추가
-		  jQuery('#sido').change(function(){
+		*/
+		bjdMap.forEach(sidoOptions);
+		
+		jQuery('#sido').change(function(){
 		    jQuery('#sigugun').show();
 		    jQuery('#sigugun').empty();
 		    jQuery('#sigugun').append(fn_option('','선택')); //
-		    jQuery.each(hangjungdong.sigugun, function(idx, code){
-		      if(jQuery('#sido > option:selected').val() == code.sido)
-		        jQuery('#sigugun').append(fn_option(code.sigugun, code.codeNm));
-		    });
-
-		    //세종특별자치시 예외처리
-		    //옵션값을 읽어 비교
-		    if(jQuery('#sido option:selected').val() == '36'){
-		      jQuery('#sigugun').hide();
-		      //index를 이용해서 selected 속성(attr)추가
-		      //기본 선택 옵션이 최상위로 index 0을 가짐
-		      jQuery('#sigugun option:eq(1)').attr('selected', 'selected');
-		      //trigger를 이용해 change 실행
-		      jQuery('#sigugun').trigger('change');
-		    }
-		  });
-
-		  //시군구 변경시 행정동 옵션추가
-		  jQuery('#sigugun').change(function(){
-		    //option 제거
-		    jQuery('#dong').empty();
-		    jQuery.each(hangjungdong.dong, function(idx, code){
-		      if(jQuery('#sido > option:selected').val() == code.sido && jQuery('#sigugun > option:selected').val() == code.sigugun)
-		        jQuery('#dong').append(fn_option(code.dong, code.codeNm));
-		    });
-		    //option의 맨앞에 추가
-		    jQuery('#dong').prepend(fn_option('','선택'));
-		    //option중 선택을 기본으로 선택
-		    jQuery('#dong option:eq("")').attr('selected', 'selected');
-
-		  });
-
-		  jQuery('#dong').change(function(){
-		    var sido = jQuery('#sido option:selected').val();
-		    var sigugun = jQuery('#sigugun option:selected').val();
-		    var dong = jQuery('#dong option:selected').val();
-		    var dongCode = sido + sigugun + dong + '00';
-
-		    //동네예보 URL
-		    var url = 'https://www.weather.go.kr/weather/process/timeseries-dfs-body-ajax.jsp?myPointCode=' + dongCode + '&unit=K';
-
-		  });
+		    bjdMap.forEach(sigugunOptions);
 		});
 
+		jQuery('#sigugun').change(function(){
+		    jQuery('#dong').show();
+		    jQuery('#dong').empty();
+		    jQuery('#dong').append(fn_option('','선택')); //
+		    
+		    var t = bjdMap.get(jQuery('#sido > option:selected').val()).get(jQuery('#sigugun > option:selected').val());
+			console.log(t);
+			for(var i=0; i<t.length; i++)
+			{
+				 jQuery('#dong').append(fn_option(0, t[i]));
+			}
+		});
+	});
+	
 		function fn_option(code, name){
-		  return '<option value="' + code +'">' + name +'</option>';
+		  return '<option value="' + name +'">' + name +'</option>';
 		}
 		</script>
 	<script>
