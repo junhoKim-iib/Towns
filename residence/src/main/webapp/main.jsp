@@ -1295,7 +1295,29 @@ function GetListItem(place, index)
 	}
 	*/
 	
-	
+	//
+	// 호가, 실거래가
+	// 
+	if(place.monthly_price != null)
+    	itemStr += '<span><strong>월세호가:</strong> ' + place.monthly_price + '</span>';
+   	else
+   		itemStr += '<span><strong>월세호가:</strong> -' + '</span>';
+
+	if(place.selling_price != null)
+    	itemStr += '<span><strong>매매호가:</strong> ' + place.selling_price + '</span>';
+   	else
+       	itemStr += '<span><strong>매매호가:</strong> -' + '</span>';
+       	
+    if(place.transaction_price != null)
+    	itemStr += '<span><strong>실거래가:</strong> ' + place.transaction_price + '</span>';
+   	else
+    	itemStr += '<span><strong>실거래가:</strong> -' + '</span>';
+    	
+    if(place.chartered_price != null)
+    	itemStr += '<span><strong>전세호가:</strong> ' + place.chartered_price + '</span>';
+   	else 
+    	itemStr += '<span><strong>전세호가:</strong> -' + '</span>';
+   		
 	
 	if(place.subwayLine != null)
 		itemStr += '  <span class="subwayLine">' + place.subwayLine + '</span>';

@@ -16,7 +16,7 @@ CORS(app)
 @app.route('/recommend', methods=['GET'])
 def recommend():
     path = "C:/Users/user/eclipse-workspace1/lastgr/src/main/webapp/flask_rest_api/"
-    df = pd.read_excel(path + "web/functions/temp3.xlsx")
+    df = pd.read_excel(path + "web/functions/price_test.xlsx")
     df_loc = pd.read_json(path + "data/bjd_code.json")
 
     try:
