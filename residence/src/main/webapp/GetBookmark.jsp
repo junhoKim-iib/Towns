@@ -37,6 +37,10 @@ while(rs.next())
 	obj.put("educationFacility", rs.getString(13));
 	obj.put("lng", rs.getFloat(14));
 	obj.put("lat", rs.getFloat(15));
+	obj.put("selling_price", rs.getString(16));
+	obj.put("chartered_price", rs.getString(17));
+	obj.put("monthly_price", rs.getString(18));
+	obj.put("transaction_price", rs.getString(19));
 	System.out.println(obj);
 	result.add(obj);
 }
