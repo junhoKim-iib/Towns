@@ -568,10 +568,10 @@ else
     <div>
     <div class="signup-btn-wrap">
     <button id="signup-btn">수정하기</button></div>
-    <!-- <div class="signup-btn-wrap">
+     <div class="signup-btn-wrap">
     <button id="signup-btn" value="탈퇴하기" onclick="window.open('mem_delete.jsp','_idcheck','height=220, width=520, menubar=no, directories=no, resizable=no, status=yes, scrollbars=no, toolbar=no');">
     탈퇴하기</button>
-    </div>-->
+    </div>
     </section>            
     <footer>
     <div class="copyright-wrap" style="font-size: 12px;">
