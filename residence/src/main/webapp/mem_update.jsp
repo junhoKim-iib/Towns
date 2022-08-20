@@ -474,6 +474,35 @@ function cursor_move(a)
 			document.frm1.mailrcv.focus();
 	}
 }
+
+function remove_account()
+{
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "mem_delete_ok.jsp");
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+	xhr.onreadystatechange = function() 
+	{
+		if(xhr.readyState == XMLHttpRequest.DONE)
+		{
+			if(xhr.status == 200)
+			{
+				var data = xhr.responseText;
+				data = data.trim();
+				if(data == 'true')
+				{
+					console.log('탈퇴 완료');
+					window.location.href = '/lastgr/start.jsp';
+					
+				}
+				else
+				{
+					console.log('탈퇴 실패');
+				}
+			}
+		}
+	}
+	xhr.send('userid='+document.frm1.userid.value + '&usernm=' + document.frm1.usernm.value);
+}
 </script>
 <%
 //
@@ -569,7 +598,11 @@ else
     <div class="signup-btn-wrap">
     <button id="signup-btn">수정하기</button></div>
      <div class="signup-btn-wrap">
+     <!--  
     <button id="signup-btn" value="탈퇴하기" onclick="window.open('mem_delete.jsp','_idcheck','height=220, width=520, menubar=no, directories=no, resizable=no, status=yes, scrollbars=no, toolbar=no');">
+    탈퇴하기</button>
+    -->
+    <button id="signup-btn" value="탈퇴하기" onclick=remove_account()>
     탈퇴하기</button>
     </div>
     </section>            

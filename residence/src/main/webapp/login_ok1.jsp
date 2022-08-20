@@ -38,7 +38,7 @@ else {
    out.println("");%> 
    <script language="javascript">
    alert("로그인 실패!");
-   location.href = 'main.jsp';
+   location.href = 'start.jsp';
    </script> 
    response.sendRedirect("start.jsp");
 <% 
