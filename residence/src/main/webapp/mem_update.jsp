@@ -518,7 +518,15 @@ pstmt=con.prepareStatement(SQL);
 pstmt.setString(1, in_userid);
 rs=pstmt.executeQuery();
 if(rs.next()==false)
+{
 	out.print("등록되지 않은 회원입니다.");
+	%>
+	<script>
+		alert('탈퇴되었습니다.');
+		window.location.href = '/lastgr/start.jsp';
+	</script>
+	<%
+}
 else
 {
 	String usernm=rs.getString("usernm");

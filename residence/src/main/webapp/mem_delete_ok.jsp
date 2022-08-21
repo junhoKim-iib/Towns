@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.sql.*"%>
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>회원 탈퇴</title>
+</head>
+<body>
 <%
 request.setCharacterEncoding("utf-8");
 String userid = request.getParameter("userid");
@@ -39,4 +45,14 @@ finally
 	if(pstmt!=null)try{pstmt.close();}catch(SQLException ex){}
 	if(con!=null)try{con.close();}catch(SQLException ex){}
 }
- %>
+
+    %>
+    <!--  
+    <script>
+
+        alert('회원 탈퇴되었습니다.');
+        location.href='start.jsp';
+    </script>
+    -->
+    </body>
+</html>
