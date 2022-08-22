@@ -12,7 +12,7 @@ String userid = request.getParameter("userid");
 String usernm = request.getParameter("usernm");
 String passwd = request.getParameter("passwd");
 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234";
+String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true";
 Connection con=DriverManager.getConnection(url);
 PreparedStatement pstmt=null;
 ResultSet rs = null;

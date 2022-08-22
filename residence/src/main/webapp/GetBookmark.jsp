@@ -10,9 +10,9 @@ request.setCharacterEncoding("utf-8");
 String userid = (String)session.getAttribute("G_uid");
 
 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234";
+String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true";
 
-Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234");
+Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true");
 PreparedStatement pstmt = conn.prepareStatement("select * from mark where userid=?");
 
 pstmt.setString(1, userid);
@@ -41,7 +41,7 @@ while(rs.next())
 	obj.put("chartered_price", rs.getString(17));
 	obj.put("monthly_price", rs.getString(18));
 	obj.put("transaction_price", rs.getString(19));
-	System.out.println(obj);
+	//System.out.println(obj);
 	result.add(obj);
 }
 out.clear();

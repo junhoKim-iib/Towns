@@ -9,7 +9,7 @@ if(id==null)
 else
 {
 	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234";
+	String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true";
 	Connection con=DriverManager.getConnection(url);
 	ResultSet rs= null;
 	Statement stmt=con.createStatement();

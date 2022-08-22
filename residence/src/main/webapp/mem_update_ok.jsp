@@ -5,7 +5,7 @@
 <%
 request.setCharacterEncoding("utf-8");
 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234";
+String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true";
 Connection con=DriverManager.getConnection(url);
 PreparedStatement pstmt=null;
 String suserid =request.getParameter("userid");
@@ -36,7 +36,7 @@ pstmt.setString(6,spar);
 pstmt.setString(7,sch);
 pstmt.setString(8,suserid);
 pstmt.setString(9,spasswd);
-System.out.println(pstmt);
+//System.out.println(pstmt);
 int cnt=pstmt.executeUpdate();
 pstmt.close();
 con.close();
@@ -47,7 +47,7 @@ if(cnt>0)
 	int birth = Integer.parseInt(year);
    	int thisYear = Calendar.getInstance().get(Calendar.YEAR);
 	int age = thisYear - birth+1;
-	System.out.println(age);
+	//System.out.println(age);
    	session.setAttribute("G_birth", age);
    	session.setAttribute("G_wos", Integer.parseInt(swos));
    	session.setAttribute("G_par", Integer.parseInt(spar));

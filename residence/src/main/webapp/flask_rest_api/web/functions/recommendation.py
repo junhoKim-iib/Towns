@@ -1,10 +1,128 @@
-from collections import UserList
+import tensorflow as tf
 import pandas as pd
 import numpy as np
 import math 
 from geopy.geocoders import Nominatim
 
+from sklearn.metrics.pairwise import cosine_similarity
+from scipy import sparse
 
+class User:
+    user_num = 0
+
+    def __init__(self, id,workplace, cur_residence, age, gender, total_family, elderly, child,bookmark ):
+        self.id = id
+        self.workplace = workplace
+        self.cur_residence = cur_residence
+        self.age = age
+        self.gender = gender
+        self.total_family = total_family
+        self.elderly = elderly
+        self.child = child
+        self.bookmark = bookmark
+        User.user_num += 1
+
+
+graph = tf.Graph()
+session = tf.Session(config=None, graph=graph)
+session.run(init)
+
+def init_variable(size, dim, name=None):
+    '''
+    Helper function to initialize a new variable with
+    uniform random values.
+    '''
+    std = np.sqrt(2 / dim)
+    return tf.Variable(tf.random_uniform([size, dim], -std, std), name=name)
+
+
+def embed(inputs, size, dim, name=None):
+    '''
+    Helper function to get a Tensorflow variable and create
+    an embedding lookup to map our user and item
+    indices to vectors.
+    '''
+    emb = init_variable(size, dim, name)
+    return tf.nn.embedding_lookup(emb, inputs)
+
+
+def get_variable(graph, session, name):
+    '''
+    Helper function to get the value of a
+    Tensorflow variable by name.
+    '''
+    v = graph.get_operation_by_name(name)
+    v = v.values()[0]
+    v = v.eval(session=session)
+    return v
+
+def tensor_model(df:pd.DataFrame):
+        
+    df = df.drop(df.columns[1], axis=1)
+    df.columns = ['user', 'apt', 'clikced']
+
+    df = df.dropna()
+
+    df['user_id'] = df['user'].astype("category").cat.codes
+    df['apt_id'] = df['location'].astype("category").cat.codes
+
+    item_lookup = df[['apt_id', 'apt']].drop_duplicates()
+    item_lookup['apt_id'] = item_lookup.apt_id.astype(str)
+
+    df = df.drop(['user', 'apt'], axis=1)
+
+    df = df.loc[df.clicked != 0]
+
+    
+    users = list(np.sort(df.user_id.unique()))
+    apts = list(np.sort(df.apt_id.unique()))
+    plays = list(df.clicked)
+
+    rows = df.user_id.astype(float)
+    cols = df.apt_id.astype(float)
+   
+    data_sparse = sparse.csr_matrix((plays, (rows, cols)), shape=(len(users), len(apts)))
+  
+    uids, iids = data_sparse.nonzero()
+    epochs = 50
+    batches = 30
+    num_factors = 64 # Number of latent features
+
+ 
+    lambda_user = 0.0000001
+    lambda_item = 0.0000001
+    lambda_bias = 0.0000001
+
+    lr = 0.005
+
+    samples = 15000
+
+
+def find_similar_apts(artist=None, num_items=10):
+
+    user_vecs = get_variable(graph, session, 'user_factors')
+    item_vecs = get_variable(graph, session, 'item_factors')
+    item_bi = get_variable(graph, session, 'item_bias').reshape(-1)
+
+    
+    item_vec = item_vecs['item_id'].T
+
+    
+    # by multiplying the item vector with our item_matrix
+    scores = np.add(item_vecs.dot(item_vec), item_bi).reshape(1,-1)[0]
+
+    # Get the indices for the top 10 scores
+    top_10 = np.argsort(scores)[::-1][:num_items]
+
+    
+    # and add it along with its score to a pandas dataframe.
+    apts, artist_scores = [], []
+    
+   
+
+    similar = pd.DataFrame({'apt': apts, 'score': artist_scores})
+
+    return similar
 
 # calcuate distance 
 
@@ -20,96 +138,216 @@ def euclidean_distance(user1, user2):
     distance += (user1[i] - user2[i]) ** 2
   return distance ** 0.5
   
-#print(euclidean_distance(A=[1, 5, 7, 9], B=[2, 3, 6, 15]))
 
 
 
-def vectorize_user(user_list):
-    for user in user_list:
-        pass
-
-
-def get_user_similarity(user):
-    pass
-
-
-
-# user info similarity
-#if there is no bookmark data:
-def cold_start(user):
-
-    pass
-
-
-
-
-
-class User:
-    user_num = 0
-
-    def __init__(self,workplace, cur_residence, age, gender, total_family, elderly, child ):
-        self.workplace = workplace
-        self.cur_residence = cur_residence
-        self.age = age
-        self.gender = gender
-        self.total_family = total_family
-        self.elderly = elderly
-        self.child = child
-        User.user_num += 1
-
-
-
-def get_needed_dict(user):
+def weighted_rating(v,m,R,C):
+    '''
+    Calculate the weighted rating
     
-    elderly = user.elderly
-    child = user.child
-    needed_dict = {'convenientFacility':[], 'educationFacility':[]}
-    if elderly > 0:
-        needed_dict['convenientFacility'].append('보건소') 
-        needed_dict['convenientFacility'].append('병원')
+    Args:
+    v -> average rating for each item (float)
+    m -> minimum votes required to be classified as popular (float)
+    R -> average rating for the item (pd.Series)
+    C -> average rating for the whole dataset (pd.Series)
+    
+    Returns:
+    pd.Series
+    '''
+    return ( (v / (v + m)) * R) + ( (m / (v + m)) * C )
+
+
+
+
+
+def get_searched(searched:str):
+
+    if '선택' in searched:
+        searched = searched.replace("선택", '')
+    
+    return searched.strip()
+
+
+
+# 편의시설(관공서, 병원, 백화점, 대형상가, 공원, 기타
+# 복지시설 "관리사무소", "노인정", "보육시설", "문고", "주민공동시설", "어린이놀이터", "휴게시설", "유치원", "커뮤니티공간", "자전거보관소"
+# 교육시설(초등학교, 중학교, 고등학교, 대학교
+# def get_columns(user:User):
+#     res_dict = {"managementOffice":0,"seniorCenter":0,"childCare":0,"library":0,\
+#         "communityFacilities":0,"playGround":0,"restFacilities":0,"kindergarten":0,\
+#              "communitySpace":0,"bicycleShed":0,"publicOffice":0,"policeOffice":0,\
+#                 "hospital":0,"departmentStore":0,"mall":0,"park":0,"elementarySchool":0,\
+#                     "middleSchool":0,"highSchool":0,"university":0}
+#     if int(user.age) > 50:
+#         res_dict["departmentStore"] = 1
+
+#     elif int(user.age) < 35:
+#         res_dict["mall"] = 1
+
+
+#     if int(user.child) > 0:
+#         res_dict["elementarySchool"] = 1
+#         res_dict["middleSchool"] = 1
+#         res_dict["highSchool"] = 1
+    
+#     if int(user.elderly) > 0:
+#         res_dict["seniorCenter"] = 1
+#         res_dict["hospital"] = 1
+#         res_dict["park"] = 1
+
+#     if user.gender == 0:
+#         res_dict["policeOffice"] = 1
+
+#     if user.age < 37 and user.child > 0: # young parents who have a child
+#         res_dict["playground"] = 1  # playground , kindergarden, elementary school etc.
+#         res_dict["kindergarden"] = 1
+#         res_dict["elementarySchool"] = 1
+
+#     return res_dict
+
+def get_columns(user:User):
+    res_list = []
+    if int(user.age) > 50:
+        res_list.append("departmentStore")
+
+    elif int(user.age) < 35:
+        res_list.append("mall") 
+
+
+    if int(user.child) > 0:
+        res_list.append("elementarySchool") 
+        res_list.append("middleSchool") 
+        res_list.append("highSchool") 
+    
+    if int(user.elderly) > 0:
+        res_list.append("seniorCenter") 
+        res_list.append("hospital") 
+        #res_list.append("park") 
+
+    if user.gender == 'f' and user.elderly == 0 and user.child == 0:
+        res_list.append("policeOffice") 
+
+    if user.age < 37 and user.child > 0: # young parents who have a child
+        res_list.append("playGround")   # playground , kindergarden, elementary school etc.
+        res_list.append("kindergarten") 
+        res_list.append("elementarySchool") 
+
+    return res_list
+
+
+
+
+def make_dataset(df_len, user:User,user_log_df):
+    dataset = pd.DataFrame(columns=[ x for x in range(df_len)])
+
+    for index, row in user_log_df.iterrows():
+        new_row = [0 for x in range(df_len)]
+        new_row[0] = int(row['id'])
+        result_list = []
+        for bookmark in list(user_log_df['bookmarks']):
+            if not np.isnan(bookmark) : 
+                result_list.append(int(bookmark))
+                
+        for bookmark in result_list:
+            if bookmark <= df_len:
+                new_row[bookmark] = 1
+    
+        dataset.loc[len(dataset)] = new_row
+
+    return dataset
+
+
+ 
+def calculate_similarity(data_items):
+    # use cosine similarity
+    data_sparse = sparse.csr_matrix(data_items)
+    similarities = cosine_similarity(data_sparse.transpose())
+    sim = pd.DataFrame(data=similarities, index= data_items.columns, columns= data_items.columns)
+    return sim
+
+
+
+def recommendation(df:pd.DataFrame,df_sub:pd.DataFrame, column_list, searched, cold_start, user:User, user_log_df):
+    # column_list --> return value from get_columns() 
+    # input_data --> dataframe
+
+    df = df.dropna(how='all',subset=['selling_price','chartered_price','monthly_price','transaction_price']) # 넷 중 하나라도 없는 데이터는 drop 함 
+    print("part2")
+    if cold_start:
+        print(searched)
+        target_sub = df_sub[df_sub['kaptAddr'].str.contains(searched)]
+        target_df = df[df['kaptAddr'].str.contains(searched)]
+        print("target_num: " , len(target_df.index))
+        print("part3")
+        for val in column_list:
+            pre_df = target_df
+            target_df = target_df[target_df[val] == 1]
+            target_sub = target_sub[target_sub[val] == 1]
+            if len(target_df.index) < 1 and len(pre_df.index) < 80:
+                print("data is too small. return previous dataframe")
+                return pre_df
+            elif len(target_df.index) < 1 and len(pre_df.index) > 80:
+                print("sub dataframe", len(target_sub.index))
+                return target_sub
+
+            print("new df len: ", len(target_df.index))
+
+        return target_df
         
-    if child > 0:
-        needed_dict['educationFacility'].append('초등학교')
-        needed_dict['educationFacility'].append('중학교')
-    
-    return needed_dict
-    
-    
-def get_recommendation(target_loc,needed_dict, df):
-    df = df[df['bjdCode'] == int(target_loc)]
-    df = df.dropna(subset=['convenientFacility','educationFacility'])
-    df = df[df['convenientFacility'].str.contains(needed_dict['convenientFacility'][1])]
-    df = df[df['educationFacility'].str.contains(needed_dict['educationFacility'][0])]
-    
-    return df
-    
+    else:
+        
+        data = make_dataset(len(df.index), user,user_log_df)
+        data_items = data.drop('user_id', 1)
+        magnitude = np.sqrt(np.square(data_items).sum(axis=1))
+        data_items = data_items.divide(magnitude, axis='index')
 
-def set_weight(df):
-    conditions = [(df['convenientFacility'].str.contains('백화점')) &(df['convenientFacility'].str.contains('대형상가'))
-                  &(df['convenientFacility'].str.contains('관공서'))&(df['convenientFacility'].str.contains('공원'))
-                  &(df['convenientFacility'].str.contains('병원')),
-                  
-                 (df['convenientFacility'].str.contains('병원'))&(df['convenientFacility'].str.contains('대형상가'))
-                  &(df['convenientFacility'].str.contains('관공서'))&(df['convenientFacility'].str.contains('공원')),
-                  
-                 (df['convenientFacility'].str.contains('병원'))&(df['convenientFacility'].str.contains('대형상가'))
-                  &(df['convenientFacility'].str.contains('공원')),
-                  
-                 (df['convenientFacility'].str.contains('병원'))&(df['convenientFacility'].str.contains('대형상가')),
-                  
-                 (df['convenientFacility'].str.contains('대형상가'))]
-   
-    choices = [5,4,3,2,1]
-    df['score'] = np.select(conditions, choices, default = 0)
-    df = df.sort_values(by=['score'], ascending=[False])
-    
-    return df
+        # Build the similarity matrix
+        data_matrix = calculate_similarity(data_items)
+
+        # top 10 similar residences for user liked 
+        #print(data_matrix.loc[4115].nlargest(11))
+
+        # USER-ITEM CALCULATIONS
+
+
+        data_neighbours = pd.DataFrame(index=data_matrix.columns, columns=range(1,11))
+        for i in range(0, len(data_matrix.columns)):
+            data_neighbours.iloc[i,:10] = data_matrix.iloc[0:,i].sort_values(ascending=False)[:10].index
+
+        # set user id.
+        user_id = user.id
+        user_index = data[data.user_id == user_id].index.tolist()[0]
+
+        known_user_likes = data_items.iloc[user_index]
+        known_user_likes = known_user_likes[known_user_likes >0].index.values
+
+        most_similar_to_likes = data_neighbours.iloc[known_user_likes]
+        similar_list = most_similar_to_likes.values.tolist()
+        similar_list = list(set([item for sublist in similar_list for item in sublist]))
+        neighbourhood = data_matrix[similar_list].iloc[similar_list]
+
+
+        user_vector = data_items.iloc[user_index].iloc[similar_list]
+
+        # Calculate the score
+        score = neighbourhood.dot(user_vector).div(neighbourhood.sum(axis=1))
+
+        score = score.drop(known_user_likes)
+
+        # print (known_user_likes)
+        # print (score.nlargest(20))
+
+        return similar_list
+
+
+
+
 
 def geocoding(address):
     geolocator = Nominatim(user_agent = 'South Korea', timeout=None)
     location = geolocator.geocode(address)
     if location is None:
-        crd = ['NaN', 'NaN']
+        crd = [None, None]
     else:
         crd = [location.latitude, location.longitude]
 
@@ -117,20 +355,5 @@ def geocoding(address):
 
 
 
-def result_list():
-    df = pd.read_json("C:\\Users\\kimjunho\\Desktop\\flask_rest_api\\data\\location_data2.json")
-    df_loc = pd.read_json("C:\\Users\\kimjunho\\Desktop\\flask_rest_api\\data\\bjd_code.json")
-    user_log_df = pd.read_json("C:\\Users\\kimjunho\\Desktop\\flask_rest_api\\data\\MOCK_search_log.json")
-    user_info = pd.read_json("C:\\Users\\kimjunho\\Desktop\\flask_rest_api\\data\\MOCK_USER_DATA.json")
 
-   
-    user = User(workplace = '삼성동',cur_residence = '용산',age='42',gender='f', total_family=5,elderly= 2,child=1)
-    #user_searched = input('지역 검색: ')
-    user_searched = "강남구 삼성동"
-    search_result = df_loc[df_loc['location'].str.contains(user_searched)]
-    choose_district = search_result.iloc[[0],:]
-    target_loc = str(int(choose_district['bjdcode']))
-    needed_dict = get_needed_dict(user)
-    res_list = get_recommendation(target_loc,needed_dict,df)
 
-    weighted_list = set_weight(res_list) # recommendation list 

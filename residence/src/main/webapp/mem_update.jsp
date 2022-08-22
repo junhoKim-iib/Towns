@@ -474,7 +474,6 @@ function cursor_move(a)
 			document.frm1.mailrcv.focus();
 	}
 }
-
 function remove_account()
 {
 	var xhr = new XMLHttpRequest();
@@ -491,7 +490,7 @@ function remove_account()
 				if(data == 'true')
 				{
 					console.log('탈퇴 완료');
-					window.location.href = '/lastgr/start.jsp';
+					window.location.href = '/residence/start.jsp';
 					
 				}
 				else
@@ -503,13 +502,14 @@ function remove_account()
 	}
 	xhr.send('userid='+document.frm1.userid.value + '&usernm=' + document.frm1.usernm.value);
 }
+
 </script>
 <%
 //
 String in_userid = (String)session.getAttribute("G_uid");
 //
 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234";
+String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true";
 Connection con=DriverManager.getConnection(url);
 PreparedStatement pstmt=null;
 ResultSet rs=null;
@@ -520,12 +520,12 @@ rs=pstmt.executeQuery();
 if(rs.next()==false)
 {
 	out.print("등록되지 않은 회원입니다.");
-	%>
-	<script>
-		alert('탈퇴되었습니다.');
-		window.location.href = '/lastgr/start.jsp';
-	</script>
-	<%
+%>
+<script>
+	alert('탈퇴되었습니다.');
+	window.location.href = '/residence/start.jsp';
+</script>
+<%
 }
 else
 {
@@ -537,7 +537,7 @@ else
 	String par=rs.getString("par");
 	String ch=rs.getString("ch");
 	
-	System.out.println(wos);
+	//System.out.println(wos);
 	%>
 	<body>
 	<div class="main-signup">
@@ -604,13 +604,11 @@ else
     </span>
     <div>
     <div class="signup-btn-wrap">
-    <button id="signup-btn">수정하기</button></div>
-     <div class="signup-btn-wrap">
-     <!--  
-    <button id="signup-btn" value="탈퇴하기" onclick="window.open('mem_delete.jsp','_idcheck','height=220, width=520, menubar=no, directories=no, resizable=no, status=yes, scrollbars=no, toolbar=no');">
-    탈퇴하기</button>
-    -->
-    <button id="signup-btn" value="탈퇴하기" onclick=remove_account()>
+     <button id="signup-btn">수정하기</button></div>
+    <div class="signup-btn-wrap">
+    <!-- <button id="signup-btn" value="탈퇴하기" onclick="window.open('mem_delete.jsp','_idcheck','height=220, width=520, menubar=no, directories=no, resizable=no, status=yes, scrollbars=no, toolbar=no');">
+    탈퇴하기</button> -->
+     <button id="signup-btn" value="탈퇴하기" onclick=remove_account()>
     탈퇴하기</button>
     </div>
     </section>            

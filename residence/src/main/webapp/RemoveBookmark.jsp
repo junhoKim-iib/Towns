@@ -39,9 +39,9 @@ float lat = Float.parseFloat(String.valueOf(obj.get("lat")));
 */
 
 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234";
+String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true";
 
-Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234");
+Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true");
 PreparedStatement pstmt = conn.prepareStatement("delete from mark where userid=? and kaptCode=?");
 
 pstmt.setString(1, userid);

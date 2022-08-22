@@ -232,7 +232,7 @@ h2 span:nth-child(1) {
 	<%
 	if (session == null || !request.isRequestedSessionIdValid()) 
 	{
-	    System.out.println("세션이 무효화 상태입니다.");
+	    //System.out.println("세션이 무효화 상태입니다.");
 	    %>
 		<script>
 			ShowMenuAfterLogin(false);
@@ -262,7 +262,7 @@ h2 span:nth-child(1) {
 			</script>
 			<%
 		}
-		System.out.println(uid);
+		//System.out.println(uid);
 	}
 	%>
 	<!-- ----------------------------------- -->

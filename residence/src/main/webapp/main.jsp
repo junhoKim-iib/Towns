@@ -819,7 +819,7 @@ div.loading{
               <div class="input-group mb-3">
               <div></div>
               	<% 
-              	System.out.println(request.getParameter("search_value"));
+              	//System.out.println(request.getParameter("search_value"));
               	String in_search_value = request.getParameter("search_value"); 
               	%>
               	<select name="sido" id="sido">
@@ -1931,21 +1931,21 @@ function removeBookmark()
 	<%
 	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 	if (session == null || !request.isRequestedSessionIdValid()) {
-		System.out.println("세션이 무효화 상태입니다.");
+		//System.out.println("세션이 무효화 상태입니다.");
 	%>
 	<script>
     	alert('먼저 로그인해주세요!');
-		window.location.href = '/lastgr/start.jsp';
+		window.location.href = '/residence/start.jsp';
     </script>
 	<%
 	} else {
 	String uid = (String) session.getAttribute("G_uid");
 	if (uid == null) {
-		System.out.println("세션이 무효화 상태입니다.");
+		//System.out.println("세션이 무효화 상태입니다.");
 	%>
 	<script>
 	    	alert('먼저 로그인해주세요!');
-			window.location.href = '/lastgr/start.jsp';
+			window.location.href = '/residence/start.jsp';
 	    </script>
 	<%
 	} else {

@@ -54,8 +54,8 @@ def recommend():
         needed_dict = recom.get_needed_dict(user)
         res_list = recom.get_recommendation(target_loc,needed_dict,df)
 
-        weighted_list = recom.set_weight(res_list) # recommendation list 
-        recom_json = weighted_list.to_json(force_ascii=False)
+        #weighted_list = recom.set_weight(res_list) # recommendation list 
+        #recom_json = weighted_list.to_json(force_ascii=False)
         #recom_json = json.dumps(recom_json, indent=4, ensure_ascii=False)
         #recom_json = parse.unquote(recom_json,encoding='utf8')
         print('끝')

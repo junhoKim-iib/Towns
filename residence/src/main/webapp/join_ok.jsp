@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" import="java.sql.*"%>
 <%request.setCharacterEncoding("UTF-8");
 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234";
+String url="jdbc:sqlserver://localhost:1433;databaseName=jsp_book;user=user;password=1234;encrypt=true;trustServerCertificate=true";
 Connection con= DriverManager.getConnection(url); // DB연결
 Statement stmt = con.createStatement(); // 쿼리문만들기
 // 매개변수들 설정
@@ -15,7 +15,7 @@ String saddd =request.getParameter("addd");
 String swos =request.getParameter("wos");
 String spar =request.getParameter("par");
 String sch =request.getParameter("ch");
-System.out.println(suserid);
+/* System.out.println(suserid);
 System.out.println(susernm);
 System.out.println(spasswd);
 System.out.println(sbirth);
@@ -24,7 +24,7 @@ System.out.println(saddd);
 System.out.println(swos); // 
 System.out.println(sjad);
 System.out.println(spar);// 
-System.out.println(sch); //
+System.out.println(sch); // */
 // 매개변수 넣을 쿼리문 String으로 만들기
 String SQL="select count(*) cnt from members where userid = '" + suserid + "'";
 // 만든 String으로 쿼리 실행하고 결과값 받기
