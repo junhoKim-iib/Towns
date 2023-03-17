@@ -23,107 +23,6 @@ class User:
         User.user_num += 1
 
 
-graph = tf.Graph()
-session = tf.Session(config=None, graph=graph)
-session.run(init)
-
-def init_variable(size, dim, name=None):
-    '''
-    Helper function to initialize a new variable with
-    uniform random values.
-    '''
-    std = np.sqrt(2 / dim)
-    return tf.Variable(tf.random_uniform([size, dim], -std, std), name=name)
-
-
-def embed(inputs, size, dim, name=None):
-    '''
-    Helper function to get a Tensorflow variable and create
-    an embedding lookup to map our user and item
-    indices to vectors.
-    '''
-    emb = init_variable(size, dim, name)
-    return tf.nn.embedding_lookup(emb, inputs)
-
-
-def get_variable(graph, session, name):
-    '''
-    Helper function to get the value of a
-    Tensorflow variable by name.
-    '''
-    v = graph.get_operation_by_name(name)
-    v = v.values()[0]
-    v = v.eval(session=session)
-    return v
-
-def tensor_model(df:pd.DataFrame):
-        
-    df = df.drop(df.columns[1], axis=1)
-    df.columns = ['user', 'apt', 'clikced']
-
-    df = df.dropna()
-
-    df['user_id'] = df['user'].astype("category").cat.codes
-    df['apt_id'] = df['location'].astype("category").cat.codes
-
-    item_lookup = df[['apt_id', 'apt']].drop_duplicates()
-    item_lookup['apt_id'] = item_lookup.apt_id.astype(str)
-
-    df = df.drop(['user', 'apt'], axis=1)
-
-    df = df.loc[df.clicked != 0]
-
-    
-    users = list(np.sort(df.user_id.unique()))
-    apts = list(np.sort(df.apt_id.unique()))
-    plays = list(df.clicked)
-
-    rows = df.user_id.astype(float)
-    cols = df.apt_id.astype(float)
-   
-    data_sparse = sparse.csr_matrix((plays, (rows, cols)), shape=(len(users), len(apts)))
-  
-    uids, iids = data_sparse.nonzero()
-    epochs = 50
-    batches = 30
-    num_factors = 64 # Number of latent features
-
- 
-    lambda_user = 0.0000001
-    lambda_item = 0.0000001
-    lambda_bias = 0.0000001
-
-    lr = 0.005
-
-    samples = 15000
-
-
-def find_similar_apts(artist=None, num_items=10):
-
-    user_vecs = get_variable(graph, session, 'user_factors')
-    item_vecs = get_variable(graph, session, 'item_factors')
-    item_bi = get_variable(graph, session, 'item_bias').reshape(-1)
-
-    
-    item_vec = item_vecs['item_id'].T
-
-    
-    # by multiplying the item vector with our item_matrix
-    scores = np.add(item_vecs.dot(item_vec), item_bi).reshape(1,-1)[0]
-
-    # Get the indices for the top 10 scores
-    top_10 = np.argsort(scores)[::-1][:num_items]
-
-    
-    # and add it along with its score to a pandas dataframe.
-    apts, artist_scores = [], []
-    
-   
-
-    similar = pd.DataFrame({'apt': apts, 'score': artist_scores})
-
-    return similar
-
 # calcuate distance 
 
 ## L1 
@@ -233,7 +132,6 @@ def get_columns(user:User):
         res_list.append("elementarySchool") 
 
     return res_list
-
 
 
 

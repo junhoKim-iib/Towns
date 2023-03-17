@@ -14,9 +14,9 @@ app.config['JSON_AS_ASCII'] = False
 api = Api(app)  # Flask 객체에 Api 객체 등록
 CORS(app)
 
-path = "C:/Users/kimjunho/eclipse-workspace/residence/src/main/webapp/flask_rest_api/"
-df = pd.read_excel(path + "web/functions/final2.xlsx", index_col=0)
-df_sub = pd.read_excel(path + "web/functions/police_added.xlsx",index_col=0)
+path = "data path here"
+df = pd.read_excel(path + "web/functions/dataset.xlsx", index_col=0)
+df_sub = pd.read_excel(path + "web/functions/sub_dataset.xlsx",index_col=0)
 df_loc = pd.read_json(path + "data/bjd_code.json")
 user_log_df = []
 
@@ -66,12 +66,9 @@ def recommend():
         #print(df.head())
         res_list = recom.recommendation(df,df_sub,column_list,user_searched,cold_start, user, user_log_df)
 
-        # weighted_list = recom.set_weight(res_list) # recommendation list 
-        # recom_json = weighted_list.to_json(force_ascii=False)
-        # #recom_json = json.dumps(recom_json, indent=4, ensure_ascii=False)
-        # #recom_json = parse.unquote(recom_json,encoding='utf8')
+      
         print(res_list)
-        print('끝')
+        print('Done')
         return res_list.to_json(force_ascii=False)
 
     except Exception as e:
