@@ -1,8 +1,8 @@
 ## 공공데이터를 활용한 거주지 추천
 #### Residential Recommendation Web Application Using Public Data
 
------------------------
-## Description
+
+### Description
 추천 시스템으로 간편하게 원하는 매물 정보를 확인할 수 있습니다. </br>
 공공데이터포털의 주택단지, 주변 시설 데이터 등을 활용해 사용자가 선호할만한 단지를 추천합니다. </br>
 
