@@ -34,16 +34,20 @@
 
 <p align="left">
 
+* 회원가입
 <img src="https://user-images.githubusercontent.com/59608767/225841136-24fd9242-cbe5-4257-b952-227e0cfa4a6b.png" alt="register" width="200"/>
 
+* 시작 화면
 <img src="https://user-images.githubusercontent.com/59608767/225827524-ca802204-fe38-4975-ba8b-db44f5d6ba30.png" alt="Main" width="600"/>
   
 </p>
 
 <p align="left">
-
+    
+* 검색 결과 화면
 <img src="https://user-images.githubusercontent.com/59608767/225841836-a2f67cde-82b8-4d13-a4e1-9d9b2a4ead1b.png" alt="register" width="400"/>
 
+* 북마크
 <img src="https://user-images.githubusercontent.com/59608767/225841849-b2b6c111-a09a-49dc-af64-71fdb303c748.png" alt="Main" width="200"/>
   
 </p>
