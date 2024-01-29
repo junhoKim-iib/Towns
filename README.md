@@ -47,7 +47,7 @@
 * 검색 결과 화면
 <img src="https://user-images.githubusercontent.com/59608767/225841836-a2f67cde-82b8-4d13-a4e1-9d9b2a4ead1b.png" alt="register" width="400"/>
 
-* 북마크
+* 인포 윈도우 & 북마크
 <img src="https://user-images.githubusercontent.com/59608767/225841849-b2b6c111-a09a-49dc-af64-71fdb303c748.png" alt="Main" width="200"/>
   
 </p>
