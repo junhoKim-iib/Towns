@@ -17,12 +17,13 @@
 
 ### 🔨**사용 기술**
 
-- JAVA, Flask, MSsql, BootStrap
+- Python, Flask, MS SQL, BootStrap, JAVA, JSP
 
 
 
 #### 서비스 흐름도
-<img src="https://user-images.githubusercontent.com/59608767/222728820-6a9bf6e3-766b-4c28-b2b1-a75a5c85737c.png" alt="alt text" width="500"/>
+<img src="https://github.com/junhoKim-iib/Towns/assets/59608767/b34c8887-8ce8-478c-814a-e1233445b099" alt="alt text" width="700"/>
+
 
 
 
