@@ -17,7 +17,7 @@
 
 ### 🔨**사용 기술**
 
-- Python, Flask, MS SQL, BootStrap, JAVA, JSP
+- Python, Flask, MS SQL, BootStrap,Kakao Map API, JAVA, JSP
 
 
 
